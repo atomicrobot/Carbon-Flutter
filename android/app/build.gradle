@@ -1,3 +1,6 @@
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -44,7 +47,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.carbon_flutter"
+        applicationId "com.atomicrobot.carbonflutter"
         minSdkVersion 29
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
@@ -52,16 +55,67 @@ android {
     }
 
     buildTypes {
+        debug {
+
+        }
+
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
         }
     }
+
+    flavorDimensions "flavor"
+    productFlavors {
+        dev {
+            dimension "flavor"
+            applicationIdSuffix ".dev"
+        }
+
+        prod {
+            dimension "flavor"
+        }
+    }
+}
+
+// Working around a bug in the Flutter toolchain where the target file is not correctly selected
+// See: https://github.com/flutter/flutter/issues/55366#issuecomment-1190844365
+def getCurrentFlavorFlutterTarget() {
+    def taskReqStr = gradle.getStartParameter().getTaskRequests().toString()
+    if (taskReqStr == null) {
+        return "not_needed_yet"
+    }
+
+    Pattern pattern
+    if (taskReqStr.contains("assemble")) { // to run ./gradlew assembleRelease to build APK
+        pattern = Pattern.compile("assemble(\\w+)(Release|Debug)")
+    } else if (taskReqStr.contains("bundle")) { // to run ./gradlew bundleRelease to build .aab
+        pattern = Pattern.compile("assemble(\\w+)(Release|Debug)")
+    } else {
+        pattern = Pattern.compile("generate(\\w+)(Release|Debug)")
+    }
+
+    Matcher matcher = pattern.matcher(taskReqStr)
+    def flavor
+    if (matcher.find()) {
+        flavor = matcher.group(1).toLowerCase()
+    } else {
+        return "not_needed_yet"
+    }
+
+    if (flavor == "dev") {
+        return "lib/main_dev.dart"
+    } else if (flavor == "prod") {
+        return "lib/main_prod.dart"
+    } else {
+        throw new GradleException("Unexpected flavor: ${flavor}")
+    }
 }
 
 flutter {
     source '../..'
+    target getCurrentFlavorFlutterTarget()
 }
 
 dependencies {
