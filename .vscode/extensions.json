@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "gaetschwartz.build-runner",
+        "localizely.flutter-intl",
+        "ryanluker.vscode-coverage-gutters",
+        "flutterando.flutter-coverage",
+    ]
+}

@@ -1,0 +1,44 @@
+{
+	"Create Freezed Imports": {
+		"description": "Creates freezed imports",
+		"scope": "dart",
+		"prefix": "freezed_imports",
+		"body": [
+			"import 'package:flutter/foundation.dart';",
+			"import 'package:freezed_annotation/freezed_annotation.dart';",
+			"",
+			"part '$TM_FILENAME_BASE.freezed.dart';",
+			""
+		]
+	},
+	"Create New Freezed Type": {
+		"description": "Creates a new type configured with freezed",
+		"scope": "dart",
+		"prefix": "freezed_type",
+		"body": [
+			"@freezed",
+			"class ${1} with _$${1} {",
+			"  const factory ${1}({",
+			"    required String value,",
+			"  }) = _${1};",
+			"",
+			"  const ${1}._();",
+			"}"
+		]
+	},
+	"Create New Freezed Union Type": {
+		"description": "Create a new union type configured with freezed",
+		"scope": "dart",
+		"prefix": "freezed_union",
+		"body": [
+			"@freezed",
+			"class ${1} with _$${1} {",
+			"  factory ${1}.first({",
+			"    required String value,",
+			"  }) = _First;",
+			"",
+			"  const ${1}._();",
+			"}"
+		]
+	},
+}
