@@ -1,37 +1,27 @@
-# carbon
-
-A new Flutter project.
+# Carbon Flutter
 
 ## Getting Started
+This assumes you have Android, iOS, and other platform-specific tooling installed or are familiar with how to install and configure those tools. We are assuming you will be using VS Code as your IDE and are using a Mac.
 
-This project is a starting point for a Flutter application.
+### Windows
+If you also need to support Windows development, [Parallels](https://www.parallels.com/) is amazing for running Windows on your Mac. In addition to VS Code, you will also need to install the community version of Visual Studio with the "Desktop development with C++" workload so that you can run the Windows desktop app.
 
-This assumes you have Android, iOS, and other platform-specific tooling installed or are familiar with how to install and configure those tools. We are assuming you will be using VS Code as your IDE and are using a Mac. If you also need to support Windows development, [Parallels](https://www.parallels.com/) is amazing for running Windows on your Mac.
+If you see that files have changed but there is no diff (likely line endings), this command will help you.
+`git add --renormalize .`
 
 ### Project Tools
 - [Flutter](https://flutter.dev/): Flutter is the framework used in this project. **Please install Flutter using Sidekick! (see below)**
 - [Sidekick](https://github.com/fluttertools/sidekick): Sidekick is a great tool for managing your Flutter versions.
 - [VS Code](https://code.visualstudio.com/): VS Code is the primary IDE we recommend for your Flutter development.
 
-### Resources
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
 ### Shell
 You will want to add the following line to your shell if you plan on supporting a web or desktop app:
-
 `export CHROME_EXECUTABLE="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"`
-
-Then run these lines in your shell to enable their respective build targets:
-
 `flutter config --enable-web`
-
 `flutter config --enable-windows-desktop`
+`flutter config --enable-macos-desktop
 
-`flutter config --enable-macos-desktop`
+***
 
 ## Project Architecture
 
@@ -57,6 +47,11 @@ Localization documentation can be found on the [Flutter website](https://docs.fl
 ### Code Generation
 The best-written code is code a human doesn't need to write. Code generation is isolated to certain directories to reduce the time needed to generate code. You can find this configuration in `build.yaml`.
 
+If you need to manually re-run codegen:
+```
+flutter pub run build_runner build --delete-conflicting-outputs
+```
+
 #### Localization
 The localization dependency documented above generates appropriate Dart code for supported languages.
 
@@ -71,7 +66,6 @@ The Dart language is missing constructs like data classes, sealed classes, patte
 These commands are sometimes useful during development.
 - `flutter analyze`: Runs the code linter (configured via `analysis_optins.yaml`). This output should match what you see in VS Code.
 - `flutter test --coverage`: Runs the project automated tests with code coverage enabled.
-- `flutter test --update-goldens`: Updates golden images for widget tests.
 
 ### VS Code
 Helpful hint: If VS Code seems like it is confused about the real state of what is going on with Dart, `Cmd+Shift+P` and choose `Dart: Restart Analysis Server` and see if that helps.

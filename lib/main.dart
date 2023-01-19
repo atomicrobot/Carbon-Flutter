@@ -1,115 +1,137 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-void main() {
-  runApp(const MyApp());
+import 'package:carbon_flutter/app/app.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:carbon_flutter/app/clients/device_client.dart';
+import 'package:carbon_flutter/app/clients/error_reporter.dart';
+import 'package:carbon_flutter/app/clients/logger.dart';
+import 'package:carbon_flutter/domain/app/build_flavor.dart';
+import 'package:carbon_flutter/domain/app/build_mode.dart';
+import 'package:carbon_flutter/domain/device/device_capability.dart';
+import 'package:carbon_flutter/domain/device/device_info.dart';
+import 'package:carbon_flutter/domain/device/device_type.dart';
+import 'package:carbon_flutter/domain/device/host_platform.dart';
+import 'package:carbon_flutter/domain/device/package_info.dart';
+import 'package:carbon_flutter/providers.dart';
+import 'package:carbon_flutter/util/time.dart';
+
+// These instances are are things that should exist and be accessible outside
+// of and before calling runApp. To accomplish that, we force them to be
+// overridden (see providers.dart) in the root ProviderScope that is
+// passed into runApp below. This is to support capabilities like local
+// notifications, deep links, global error handling, and other things that
+// happen outside of the typical Flutter app lifecycle. A good heuristic
+// to use for consistency when figuring out how to expose an instance is if
+// there will only ever be a single instance of the class and it does not
+// need to react to state, you should expose it via overrides; otherwise
+// follow the normal flow in providers.dart.
+
+late NowEpochMs _nowEpochMs;
+late BuildMode _buildMode;
+late BuildFlavor _buildFlavor;
+late HostPlatform _hostPlatform;
+late AppLogger _logger;
+late AppErrorReporter _errorReporter;
+late DeviceClient _deviceClient;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  _nowEpochMs = _buildNowEpochMs();
+  _buildMode = _buildBuildMode();
+  _buildFlavor = _buildBuildFlavor();
+  _hostPlatform = await _buildHostPlatform();
+  _logger = _buildLogger();
+  _errorReporter = _buildErrorReporter(_logger);
+  _deviceClient = _buildDeviceClient();
+
+  _errorReporter.init();
+
+  _logger.i('Starting the application...');
+  runApp(ProviderScope(
+    overrides: [
+      nowEpochMsProvider.overrideWithValue(_nowEpochMs),
+      buildModeProvider.overrideWithValue(_buildMode),
+      buildFlavorProvider.overrideWithValue(_buildFlavor),
+      hostPlatformProvider.overrideWithValue(_hostPlatform),
+      loggerProvider.overrideWithValue(_logger),
+      errorReporterProvider.overrideWithValue(_errorReporter),
+      deviceClientProvider.overrideWithValue(_deviceClient),
+    ],
+    child: const App(),
+  ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+NowEpochMs _buildNowEpochMs() => systemNowEpochMs;
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+BuildMode _buildBuildMode() {
+  if (kDebugMode) {
+    return BuildMode.debug();
+  } else if (kProfileMode) {
+    return BuildMode.profile();
+  } else if (kReleaseMode) {
+    return BuildMode.release();
+  } else {
+    throw UnsupportedError('Unrecognized build mode (not debug, profile, or release).');
+  }
+}
+
+BuildFlavor _buildBuildFlavor() {
+  const flavor = String.fromEnvironment('BUILD_FLAVOR');
+  switch (flavor) {
+    case 'dev':
+      return BuildFlavor.dev();
+    case 'prod':
+      return BuildFlavor.prod();
+    default:
+      throw UnsupportedError(
+          'Unsupported build flavor defined. Use "--dart-define BUILD_FLAVOR=VALUE" to provide a correct value.');
+  }
+}
+
+Future<HostPlatform> _buildHostPlatform() async {
+  final deviceInfoPlugin = DeviceInfoPlugin();
+  if (Platform.isAndroid) {
+    final deviceAndPackageInfo = await Future.wait([
+      deviceInfoPlugin.androidInfo,
+      PackageInfo.fromPlatform(),
+    ]);
+    return HostPlatform.android(
+      deviceType: DeviceType.mobile(),
+      deviceCapabilities: [
+        DeviceCapability.backgroundScheduling(),
+        DeviceCapability.audibleAlert(),
+        DeviceCapability.vibrateAlert(),
+        DeviceCapability.notificationAlert(),
+      ],
+      deviceInfo: deviceAndPackageInfo[0] as AndroidDeviceInfo,
+      packageInfo: deviceAndPackageInfo[1] as PackageInfo,
     );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+  } else if (Platform.isIOS) {
+    final deviceAndPackageInfo = await Future.wait([
+      deviceInfoPlugin.iosInfo,
+      PackageInfo.fromPlatform(),
+    ]);
+    return HostPlatform.iOS(
+      deviceType: DeviceType.mobile(),
+      deviceCapabilities: [
+        DeviceCapability.backgroundScheduling(),
+        DeviceCapability.audibleAlert(),
+        DeviceCapability.vibrateAlert(),
+        DeviceCapability.notificationAlert(),
+      ],
+      deviceInfo: deviceAndPackageInfo[0] as IosDeviceInfo,
+      packageInfo: deviceAndPackageInfo[1] as PackageInfo,
     );
+  } else {
+    throw UnsupportedError('Unsupported host platform');
   }
 }
+
+AppLogger _buildLogger() => AppLogger();
+
+AppErrorReporter _buildErrorReporter(AppLogger logger) => AppErrorReporter(logger);
+
+DeviceClient _buildDeviceClient() => const DeviceClient();
