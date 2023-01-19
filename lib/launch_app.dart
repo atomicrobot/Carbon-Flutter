@@ -30,18 +30,16 @@ import 'package:carbon_flutter/util/time.dart';
 
 late NowEpochMs _nowEpochMs;
 late BuildMode _buildMode;
-late BuildFlavor _buildFlavor;
 late HostPlatform _hostPlatform;
 late AppLogger _logger;
 late AppErrorReporter _errorReporter;
 late DeviceClient _deviceClient;
 
-void main() async {
+void launchApp(BuildFlavor buildFlavor) async {
   WidgetsFlutterBinding.ensureInitialized();
 
   _nowEpochMs = _buildNowEpochMs();
   _buildMode = _buildBuildMode();
-  _buildFlavor = _buildBuildFlavor();
   _hostPlatform = await _buildHostPlatform();
   _logger = _buildLogger();
   _errorReporter = _buildErrorReporter(_logger);
@@ -54,7 +52,7 @@ void main() async {
     overrides: [
       nowEpochMsProvider.overrideWithValue(_nowEpochMs),
       buildModeProvider.overrideWithValue(_buildMode),
-      buildFlavorProvider.overrideWithValue(_buildFlavor),
+      buildFlavorProvider.overrideWithValue(buildFlavor),
       hostPlatformProvider.overrideWithValue(_hostPlatform),
       loggerProvider.overrideWithValue(_logger),
       errorReporterProvider.overrideWithValue(_errorReporter),
@@ -75,19 +73,6 @@ BuildMode _buildBuildMode() {
     return BuildMode.release();
   } else {
     throw UnsupportedError('Unrecognized build mode (not debug, profile, or release).');
-  }
-}
-
-BuildFlavor _buildBuildFlavor() {
-  const flavor = String.fromEnvironment('BUILD_FLAVOR');
-  switch (flavor) {
-    case 'dev':
-      return BuildFlavor.dev();
-    case 'prod':
-      return BuildFlavor.prod();
-    default:
-      throw UnsupportedError(
-          'Unsupported build flavor defined. Use "--dart-define BUILD_FLAVOR=VALUE" to provide a correct value.');
   }
 }
 
