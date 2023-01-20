@@ -5,3 +5,4 @@ targets:
         generate_for:
           include:
             - lib/domain/**.dart
+            - lib/view_models/**.dart

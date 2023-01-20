@@ -1,7 +1,10 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
-  exclude: ["**/**.l10n_codegen.dart"]
+  exclude: [
+    "**/**.l10n_codegen.dart",
+    "**/**.g.dart"
+  ]
 
 linter:
   rules:

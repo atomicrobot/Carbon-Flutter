@@ -24,4 +24,14 @@ class HostPlatform with _$HostPlatform {
   }) = iOSHostPlatform;
 
   const HostPlatform._();
+
+  String get userAgent {
+    final appName = packageInfo.appName;
+    final appVersion = packageInfo.version;
+    final platformVersion = map(
+      android: (android) => 'Android ${android.deviceInfo.version.sdkInt}',
+      iOS: (iOS) => 'iOS ${iOS.deviceInfo.systemVersion}',
+    );
+    return '$appName ($appVersion, $platformVersion)';
+  }
 }

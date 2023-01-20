@@ -1,3 +1,5 @@
+import 'package:carbon_flutter/app/clients/github_api_client.dart';
+import 'package:carbon_flutter/app/clients/http_client.dart';
 import 'package:carbon_flutter/ui/design_system/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,6 +46,16 @@ final deviceClientProvider = Provider<DeviceClient>((ref) {
 });
 
 // These providers follow a normal lifecycle
+
+final httpClientProvider = Provider<HttpClient>((ref) {
+  final hostPlatform = ref.read(hostPlatformProvider);
+  return HttpClient(userAgent: hostPlatform.userAgent);
+});
+
+final githubApiClientProvider = Provider<GithubApiClient>((ref) {
+  final httpClient = ref.read(httpClientProvider);
+  return GithubApiClient(httpClient);
+});
 
 final appConfigurationProvider = StateNotifierProvider<AppConfigurationStateNotifier, AppConfiguration>((ref) {
   final deviceClient = ref.watch(deviceClientProvider);
