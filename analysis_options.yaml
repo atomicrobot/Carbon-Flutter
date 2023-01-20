@@ -8,6 +8,14 @@ linter:
     # code style
     avoid_print: true
     prefer_single_quotes: true
+    prefer_final_locals: true
+    curly_braces_in_flow_control_structures: true
+    always_put_control_body_on_new_line: true
+    join_return_with_assignment: true
+    prefer_collection_literals: true
+    sort_constructors_first: true
+    prefer_generic_function_type_aliases: true
+    avoid_redundant_argument_values: true
     # imports
     directives_ordering: true
     avoid_relative_lib_imports: true
@@ -15,3 +23,5 @@ linter:
     # code structure
     exhaustive_cases: true
     always_declare_return_types: true
+    unawaited_futures: true
+    avoid_void_async: true

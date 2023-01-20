@@ -21,7 +21,6 @@ class _DesignSystemSlidersScreenState extends State<DesignSystemSlidersScreen> {
             padding: const EdgeInsets.all(8.0),
             child: Slider(
               value: _currentSliderValue,
-              min: 0.0,
               max: 10.0,
               divisions: 10,
               label: _currentSliderValue.round().toString(),
@@ -32,7 +31,6 @@ class _DesignSystemSlidersScreenState extends State<DesignSystemSlidersScreen> {
             padding: const EdgeInsets.all(8.0),
             child: Slider(
               value: 5.0,
-              min: 0.0,
               max: 10.0,
               divisions: 10,
               label: _currentSliderValue.round().toString(),

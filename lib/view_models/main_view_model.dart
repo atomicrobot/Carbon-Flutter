@@ -19,8 +19,6 @@ class MainState with _$MainState {
 }
 
 class MainViewModel extends StateNotifier<MainState> {
-  final GithubApiClient githubApiClient;
-
   MainViewModel(this.githubApiClient)
       : super(
           const MainState(
@@ -30,11 +28,13 @@ class MainViewModel extends StateNotifier<MainState> {
           ),
         );
 
+  final GithubApiClient githubApiClient;
+
   void setUser(String user) => state = state.copyWith(user: user);
 
   void setRepository(String repository) => state = state.copyWith(repository: repository);
 
-  void loadCommits() async {
+  Future loadCommits() async {
     state = state.copyWith(commits: const AsyncValue.loading());
     final value = await AsyncValue.guard(() async {
       return githubApiClient.loadCommits(state.user, state.repository);

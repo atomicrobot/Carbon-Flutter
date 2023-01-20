@@ -9,14 +9,14 @@ final _textScaleProvider = StateProvider<double>((ref) {
 });
 
 class DesignSystemReferenceScaffold extends ConsumerWidget {
-  final String title;
-  final Widget child;
-
   const DesignSystemReferenceScaffold({
     super.key,
     required this.title,
     required this.child,
   });
+
+  final String title;
+  final Widget child;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

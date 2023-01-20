@@ -34,7 +34,7 @@ late AppLogger _logger;
 late AppErrorReporter _errorReporter;
 late DeviceClient _deviceClient;
 
-void launchApp(BuildFlavor buildFlavor) async {
+Future launchApp(BuildFlavor buildFlavor) async {
   WidgetsFlutterBinding.ensureInitialized();
 
   _nowEpochMs = _buildNowEpochMs();

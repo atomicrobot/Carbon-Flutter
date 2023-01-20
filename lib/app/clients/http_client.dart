@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class HttpClient extends http.BaseClient {
-  final String userAgent;
-  final http.Client _inner = http.Client();
-
   HttpClient({
     required this.userAgent,
   });
+
+  final String userAgent;
+  final http.Client _inner = http.Client();
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {

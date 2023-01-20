@@ -5,13 +5,13 @@ import 'package:carbon_flutter/domain/github/commits.dart';
 class GithubRepositoryNotFoundException implements Exception {}
 
 class GithubApiClient {
-  final HttpClient httpClient;
-  final String githubApiHost;
-
   GithubApiClient(
     this.httpClient, {
     this.githubApiHost = 'api.github.com',
   });
+
+  final HttpClient httpClient;
+  final String githubApiHost;
 
   Future<List<Commit>> loadCommits(String user, String repository) async {
     final url = Uri.https(githubApiHost, '/repos/$user/$repository/commits');

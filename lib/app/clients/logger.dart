@@ -10,10 +10,6 @@ class AppLogger {
   final _logger = Logger(
     printer: PrettyPrinter(
       methodCount: 4,
-      errorMethodCount: 8,
-      lineLength: 120,
-      colors: true,
-      printEmojis: true,
       printTime: true,
     ),
   );
