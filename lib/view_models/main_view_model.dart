@@ -1,7 +1,7 @@
 import 'package:carbon_flutter/app/clients/github_api_client.dart';
+import 'package:carbon_flutter/domain/github/commits.dart';
 import 'package:carbon_flutter/providers.dart';
 import 'package:flutter/foundation.dart';
-import 'package:carbon_flutter/domain/github/commits.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

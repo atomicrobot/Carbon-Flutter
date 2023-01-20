@@ -1,9 +1,5 @@
 import 'dart:io';
-
 import 'package:carbon_flutter/app/app.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:carbon_flutter/app/clients/device_client.dart';
 import 'package:carbon_flutter/app/clients/error_reporter.dart';
 import 'package:carbon_flutter/app/clients/logger.dart';
@@ -16,6 +12,9 @@ import 'package:carbon_flutter/domain/device/host_platform.dart';
 import 'package:carbon_flutter/domain/device/package_info.dart';
 import 'package:carbon_flutter/providers.dart';
 import 'package:carbon_flutter/util/time.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // These instances are are things that should exist and be accessible outside
 // of and before calling runApp. To accomplish that, we force them to be

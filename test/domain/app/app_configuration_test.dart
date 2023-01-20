@@ -1,7 +1,6 @@
 import 'dart:ui';
-
-import 'package:flutter_test/flutter_test.dart';
 import 'package:carbon_flutter/domain/app/app_configuration.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('AppConfigurationStateNotifier', () {

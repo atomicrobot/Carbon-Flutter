@@ -1,5 +1,5 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:carbon_flutter/domain/app/build_flavor.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('BuildFlavor', () {

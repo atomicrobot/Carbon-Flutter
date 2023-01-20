@@ -1,8 +1,8 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:carbon_flutter/domain/device/device_capability.dart';
 import 'package:carbon_flutter/domain/device/device_type.dart';
 import 'package:carbon_flutter/domain/device/host_platform.dart';
 import 'package:carbon_flutter/domain/device/package_info.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/device.dart';
 

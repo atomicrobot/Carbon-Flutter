@@ -1,13 +1,12 @@
-import 'package:carbon_flutter/ui/design_system/theme.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:carbon_flutter/globals.dart';
-
 import 'package:carbon_flutter/l10n/app_localizations.l10n_codegen.dart';
 import 'package:carbon_flutter/l10n/localizations.dart';
 import 'package:carbon_flutter/providers.dart';
+import 'package:carbon_flutter/ui/design_system/theme.dart';
 import 'package:carbon_flutter/ui/navigation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class App extends ConsumerWidget {
   const App({super.key});

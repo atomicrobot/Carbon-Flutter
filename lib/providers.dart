@@ -1,15 +1,15 @@
-import 'package:carbon_flutter/app/clients/github_api_client.dart';
-import 'package:carbon_flutter/app/clients/http_client.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:carbon_flutter/app/clients/device_client.dart';
 import 'package:carbon_flutter/app/clients/error_reporter.dart';
+import 'package:carbon_flutter/app/clients/github_api_client.dart';
+import 'package:carbon_flutter/app/clients/http_client.dart';
 import 'package:carbon_flutter/app/clients/logger.dart';
 import 'package:carbon_flutter/domain/app/app_configuration.dart';
 import 'package:carbon_flutter/domain/app/build_flavor.dart';
 import 'package:carbon_flutter/domain/app/build_mode.dart';
 import 'package:carbon_flutter/domain/device/host_platform.dart';
 import 'package:carbon_flutter/util/time.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // The instances that these providers would normally return are are things
 // that should exist and be accessible outside of and before calling runApp.

@@ -1,12 +1,17 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
-  exclude: [
-    "**/**.l10n_codegen.dart",
-    "**/**.g.dart"
-  ]
+  exclude: ["**/**.l10n_codegen.dart", "**/**.g.dart"]
 
 linter:
   rules:
+    # code style
     avoid_print: true
     prefer_single_quotes: true
+    # imports
+    directives_ordering: true
+    avoid_relative_lib_imports: true
+    always_use_package_imports: true
+    # code structure
+    exhaustive_cases: true
+    always_declare_return_types: true

@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:carbon_flutter/app/clients/logger.dart';
+import 'package:flutter/foundation.dart';
 
 class AppErrorReporter {
   final AppLogger _logger;

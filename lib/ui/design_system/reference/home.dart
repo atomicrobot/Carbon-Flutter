@@ -1,3 +1,4 @@
+import 'package:carbon_flutter/l10n/localizations.dart';
 import 'package:carbon_flutter/ui/design_system/reference/buttons.dart';
 import 'package:carbon_flutter/ui/design_system/reference/checkboxes.dart';
 import 'package:carbon_flutter/ui/design_system/reference/colors.dart';
@@ -12,7 +13,6 @@ import 'package:carbon_flutter/ui/design_system/reference/text_fields.dart';
 import 'package:carbon_flutter/ui/design_system/reference/typography.dart';
 import 'package:carbon_flutter/ui/design_system/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:carbon_flutter/l10n/localizations.dart';
 
 class DesignSystemScreen extends StatelessWidget {
   const DesignSystemScreen({super.key});
