@@ -1,5 +1,5 @@
 import 'package:carbon_flutter/l10n/localizations.dart';
-import 'package:carbon_flutter/ui/design_system/theme.dart';
+import 'package:carbon_flutter/ui/design_system/typography.dart';
 import 'package:carbon_flutter/ui/widgets/app_drawer.dart';
 import 'package:carbon_flutter/view_models/main_view_model.dart';
 import 'package:flutter/material.dart';
@@ -125,8 +125,8 @@ class _MainCommits extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   if (index == 0) const SizedBox(height: 8.0),
-                  Text(commit.message, style: context.bodyMediumTextStyle),
-                  Text(commit.author, style: context.bodySmallTextStyle),
+                  BodyMedium(commit.message),
+                  BodySmall(commit.author),
                   if (index == data.value.length - 1) const SizedBox(height: 8.0),
                 ],
               ),

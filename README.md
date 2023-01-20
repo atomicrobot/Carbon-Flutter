@@ -66,6 +66,8 @@ The Dart language is missing constructs like data classes, sealed classes, patte
 These commands are sometimes useful during development.
 - `flutter analyze`: Runs the code linter (configured via `analysis_optins.yaml`). This output should match what you see in VS Code.
 - `flutter test --coverage`: Runs the project automated tests with code coverage enabled.
+    - If you want to generate a HTML report:
+        - If you are on MacOS you will need to install lcov first: `brew install lcov`.
 
 ### VS Code
 Helpful hint: If VS Code seems like it is confused about the real state of what is going on with Dart, `Cmd+Shift+P` and choose `Dart: Restart Analysis Server` and see if that helps.

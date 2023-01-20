@@ -1,5 +1,6 @@
 import 'package:carbon_flutter/ui/design_system/reference/reference_scaffold.dart';
 import 'package:carbon_flutter/ui/design_system/theme.dart';
+import 'package:carbon_flutter/ui/design_system/typography.dart';
 import 'package:flutter/material.dart';
 
 class DesignSystemTypographyScreen extends StatelessWidget {
@@ -12,22 +13,22 @@ class DesignSystemTypographyScreen extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(screenPadding),
         child: ListView(
-          children: [
-            Text('Headline Large', style: context.headlineLargeTextStyle),
-            Text('Headline Medium', style: context.headlineMediumTextStyle),
-            Text('Headline Small', style: context.headlineSmallTextStyle),
-            const Divider(),
-            Text('Title Large', style: context.titleLargeTextStyle),
-            Text('Title Medium', style: context.titleMediumTextStyle),
-            Text('Title Small', style: context.titleSmallTextStyle),
-            const Divider(),
-            Text('Label Large', style: context.labelLargeTextStyle),
-            Text('Label Medium', style: context.labelMediumTextStyle),
-            Text('Label Small', style: context.labelSmallTextStyle),
-            const Divider(),
-            Text('Body Large', style: context.bodyLargeTextStyle),
-            Text('Body Medium', style: context.bodyMediumTextStyle),
-            Text('Body Small', style: context.bodySmallTextStyle),
+          children: const [
+            HeadlineLarge('Headline Large'),
+            HeadlineMedium('Headline Medium'),
+            HeadlineSmall('Headline Small'),
+            Divider(),
+            TitleLarge('Title Large'),
+            TitleMedium('Title Medium'),
+            TitleSmall('Title Small'),
+            Divider(),
+            LabelLarge('Label Large'),
+            LabelMedium('Label Medium'),
+            LabelSmall('Label Small'),
+            Divider(),
+            BodyLarge('Body Large'),
+            BodyMedium('Body Medium'),
+            BodySmall('Body Small'),
           ],
         ),
       ),

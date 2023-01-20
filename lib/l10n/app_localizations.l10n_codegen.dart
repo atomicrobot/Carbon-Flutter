@@ -106,6 +106,12 @@ abstract class AppLocalizations {
   /// **'Dark Mode'**
   String get setting_dark_mode;
 
+  /// No description provided for @setting_language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get setting_language;
+
   /// No description provided for @navigation_settings.
   ///
   /// In en, this message translates to:

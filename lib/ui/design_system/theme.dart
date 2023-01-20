@@ -83,22 +83,3 @@ final darkTheme = ThemeData(
   useMaterial3: true,
   colorScheme: _darkColorScheme,
 );
-
-// Extensions
-extension TypographyExtension on BuildContext {
-  TextStyle get headlineLargeTextStyle => Theme.of(this).textTheme.headlineLarge!;
-  TextStyle get headlineMediumTextStyle => Theme.of(this).textTheme.headlineMedium!;
-  TextStyle get headlineSmallTextStyle => Theme.of(this).textTheme.headlineSmall!;
-
-  TextStyle get titleLargeTextStyle => Theme.of(this).textTheme.titleLarge!;
-  TextStyle get titleMediumTextStyle => Theme.of(this).textTheme.titleMedium!;
-  TextStyle get titleSmallTextStyle => Theme.of(this).textTheme.titleSmall!;
-
-  TextStyle get labelLargeTextStyle => Theme.of(this).textTheme.labelLarge!;
-  TextStyle get labelMediumTextStyle => Theme.of(this).textTheme.labelMedium!;
-  TextStyle get labelSmallTextStyle => Theme.of(this).textTheme.labelSmall!;
-
-  TextStyle get bodyLargeTextStyle => Theme.of(this).textTheme.bodyLarge!;
-  TextStyle get bodyMediumTextStyle => Theme.of(this).textTheme.bodyMedium!;
-  TextStyle get bodySmallTextStyle => Theme.of(this).textTheme.bodySmall!;
-}

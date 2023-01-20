@@ -1,4 +1,5 @@
 import 'package:carbon_flutter/l10n/localizations.dart';
+import 'package:carbon_flutter/ui/design_system/list.dart';
 import 'package:carbon_flutter/ui/design_system/reference/buttons.dart';
 import 'package:carbon_flutter/ui/design_system/reference/checkboxes.dart';
 import 'package:carbon_flutter/ui/design_system/reference/colors.dart';
@@ -11,7 +12,6 @@ import 'package:carbon_flutter/ui/design_system/reference/sliders.dart';
 import 'package:carbon_flutter/ui/design_system/reference/switches.dart';
 import 'package:carbon_flutter/ui/design_system/reference/text_fields.dart';
 import 'package:carbon_flutter/ui/design_system/reference/typography.dart';
-import 'package:carbon_flutter/ui/design_system/theme.dart';
 import 'package:flutter/material.dart';
 
 class DesignSystemScreen extends StatelessWidget {
@@ -23,7 +23,7 @@ class DesignSystemScreen extends StatelessWidget {
       title: context.localizations.navigation_design_system,
       child: ListView(
         children: [
-          ListTile(title: Text('Atoms', style: context.headlineSmallTextStyle)),
+          const ListTile(title: ListHeader('Atoms')),
           ListTile(
             title: const Text('Colors'),
             onTap: () => _push(context, () => const DesignSystemColorsScreen()),
@@ -41,7 +41,7 @@ class DesignSystemScreen extends StatelessWidget {
             onTap: () => _push(context, () => const DesignSystemIconsScreen()),
           ),
           const Divider(),
-          ListTile(title: Text('Molecules', style: context.headlineSmallTextStyle)),
+          const ListTile(title: ListHeader('Molecules')),
           ListTile(
             title: const Text('Buttons'),
             onTap: () => _push(context, () => const DesignSystemButtonsScreen()),
@@ -71,7 +71,7 @@ class DesignSystemScreen extends StatelessWidget {
             onTap: () => _push(context, () => const DesignSystemTextFieldScreen()),
           ),
           const Divider(),
-          ListTile(title: Text('Organisms', style: context.headlineSmallTextStyle)),
+          const ListTile(title: ListHeader('Organisms')),
           ListTile(
             title: const Text('App Widget 1'),
             onTap: () {},

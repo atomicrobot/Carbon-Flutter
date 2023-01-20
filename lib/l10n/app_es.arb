@@ -1,6 +1,7 @@
 {
     "appTitle": "Carbon Flutter",
     "setting_dark_mode": "Modo Oscuro",
+    "setting_language": "Idioma",
     "navigation_settings": "Ajustes",
     "navigation_design_system": "Sistema de Diseño"
 }
