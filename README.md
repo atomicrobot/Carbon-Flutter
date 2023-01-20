@@ -39,6 +39,7 @@ All of your Flutter app code lives in the `lib`, `assets`, and `test` directorie
 - `lib/ui/screens`: Application screens.
 - `lib/ui/widgets`: Reusable widgets that should be composed into screens.
 - `lib/util`: Utility code.
+- `lib/view-models`: Reactive view models for the UI.
 - `test`: Automated tests.
 
 ### Localization
