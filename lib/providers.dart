@@ -1,6 +1,5 @@
 import 'package:carbon_flutter/app/clients/github_api_client.dart';
 import 'package:carbon_flutter/app/clients/http_client.dart';
-import 'package:carbon_flutter/ui/design_system/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:carbon_flutter/app/clients/device_client.dart';
@@ -67,10 +66,4 @@ final appConfigurationProvider = StateNotifierProvider<AppConfigurationStateNoti
     ],
     locale: deviceClient.localeWithoutCountry,
   ));
-});
-
-final themeProvider = Provider<ThemeData>((ref) {
-  final appConfigurationState = ref.watch(appConfigurationProvider);
-  final darkMode = appConfigurationState.darkMode;
-  return darkMode ? darkTheme : lightTheme;
 });

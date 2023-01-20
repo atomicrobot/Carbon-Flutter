@@ -1,3 +1,4 @@
+import 'package:carbon_flutter/ui/design_system/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +15,6 @@ class App extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appConfiguration = ref.watch(appConfigurationProvider);
-    final theme = ref.watch(themeProvider);
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
@@ -26,7 +26,7 @@ class App extends ConsumerWidget {
       ],
       supportedLocales: appConfiguration.supportedLocales,
       locale: appConfiguration.locale,
-      theme: theme,
+      theme: appConfiguration.darkMode ? darkTheme : lightTheme,
       onGenerateTitle: (context) => context.localizations.appTitle,
       scaffoldMessengerKey: snackbarKey,
       routerConfig: navigationRouter,
