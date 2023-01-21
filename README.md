@@ -34,6 +34,7 @@ All of your Flutter app code lives in the `lib`, `assets`, and `test` directorie
 - `lib/app`: Application class.
 - `lib/app/clients`: Clients are the classes that handle interacting with 3rd party SaaS tools, device APIs, etc.
 - `lib/app/services`: Services are the classes that coordinate business logic across other app services, app clients, etc.
+- `lib/assets`: Code generated references to project assets (images, etc).
 - `lib/l10n`: Localization values and supporting (generated code).
 - `lib/domain`: Application domain logic (models, state management, etc).
 - `lib/ui/screens`: Application screens.

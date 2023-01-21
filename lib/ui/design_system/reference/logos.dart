@@ -1,7 +1,7 @@
-import 'package:carbon_flutter/gen/assets.gen.dart';
+import 'package:carbon_flutter/assets/assets.gen.dart';
 import 'package:carbon_flutter/ui/design_system/reference/reference_scaffold.dart';
+import 'package:carbon_flutter/ui/widgets/brightness_aware.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class DesignSystemLogosScreen extends StatelessWidget {
   const DesignSystemLogosScreen({super.key});
@@ -12,12 +12,13 @@ class DesignSystemLogosScreen extends StatelessWidget {
       title: 'Logos',
       child: ListView(
         children: [
-          ListTile(
-            title: SvgPicture.asset(Assets.images.logo),
-          ),
-          ListTile(
-            title: SvgPicture.asset(Assets.images.logoDark),
-          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: BrightnessAware(
+              light: (context) => Assets.images.logo.svg(),
+              dark: (context) => Assets.images.logoDark.svg(),
+            ),
+          )
         ],
       ),
     );
