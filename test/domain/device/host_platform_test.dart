@@ -4,12 +4,12 @@ import 'package:carbon_flutter/domain/device/host_platform.dart';
 import 'package:carbon_flutter/domain/device/package_info.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../helpers/device.dart';
+import '../../util/device.dart';
 
 void main() {
   group('HostPlatform', () {
     final testPackageInfo = PackageInfo(
-      appName: 'tetAppName',
+      appName: 'testAppName',
       packageName: 'testPackageName',
       version: 'testVerion',
       buildNumber: 'testBuildNumber',
@@ -48,6 +48,26 @@ void main() {
         iOS: (iOS) {},
         orElse: () => fail('Not an iOS host platform'),
       );
+    });
+
+    test('Should be able to create an iOS user agent', () {
+      final hostPlatform = HostPlatform.iOS(
+        deviceType: DeviceType.mobile(),
+        deviceCapabilities: testDeviceCapabilities,
+        deviceInfo: testiOSDeviceInfo,
+        packageInfo: testPackageInfo,
+      );
+      expect(hostPlatform.userAgent, equals('testAppName (testVerion, iOS systemVersion)'));
+    });
+
+    test('Should be able to create an android user agent', () {
+      final hostPlatform = HostPlatform.android(
+        deviceType: DeviceType.mobile(),
+        deviceCapabilities: testDeviceCapabilities,
+        deviceInfo: testAndroidDeviceInfo,
+        packageInfo: testPackageInfo,
+      );
+      expect(hostPlatform.userAgent, equals('testAppName (testVerion, Android 16)'));
     });
   });
 }

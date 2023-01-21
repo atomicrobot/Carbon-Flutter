@@ -1,7 +1,7 @@
 import 'package:carbon_flutter/l10n/localizations.dart';
 import 'package:carbon_flutter/ui/design_system/typography.dart';
+import 'package:carbon_flutter/ui/view_models/main_view_model.dart';
 import 'package:carbon_flutter/ui/widgets/app_drawer.dart';
-import 'package:carbon_flutter/view_models/main_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

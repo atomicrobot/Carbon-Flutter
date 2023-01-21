@@ -37,10 +37,16 @@ All of your Flutter app code lives in the `lib`, `assets`, and `test` directorie
 - `lib/l10n`: Localization values and supporting (generated code).
 - `lib/domain`: Application domain logic (models, state management, etc).
 - `lib/ui/screens`: Application screens.
+- `lib/ui/view-models`: Reactive view models for the UI.
 - `lib/ui/widgets`: Reusable widgets that should be composed into screens.
 - `lib/util`: Utility code.
-- `lib/view-models`: Reactive view models for the UI.
 - `test`: Automated tests.
+
+### Automated Testing
+
+#### Resources
+- Flutter test cheat sheet: https://invertase.io/blog/assertions-in-dart-and-flutter-tests-an-ultimate-cheat-sheet
+
 
 ### Localization
 Localization documentation can be found on the [Flutter website](https://docs.flutter.dev/development/accessibility-and-localization/internationalization). Application-specific localization tooling configuration values can be found in the `l10n.yaml` file in the project root directory.

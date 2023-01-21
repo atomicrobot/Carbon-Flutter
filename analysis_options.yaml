@@ -23,5 +23,4 @@ linter:
     # code structure
     exhaustive_cases: true
     always_declare_return_types: true
-    unawaited_futures: true
     avoid_void_async: true

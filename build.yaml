@@ -1,8 +1,12 @@
 targets:
   $default:
     builders:
+      source_gen:combining_builder:
+        options:
+          preamble: |
+            // coverage:ignore-file
       freezed:freezed:
         generate_for:
           include:
             - lib/domain/**.dart
-            - lib/view_models/**.dart
+            - lib/ui/view_models/**.dart

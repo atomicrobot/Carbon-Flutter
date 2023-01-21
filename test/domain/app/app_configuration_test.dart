@@ -11,11 +11,11 @@ void main() {
         locale: Locale('en'),
       ));
 
-      expect(stateNotifier.debugState.darkMode, false);
+      expect(stateNotifier.debugState.darkMode, isFalse);
 
       stateNotifier.setDarkMode(true);
 
-      expect(stateNotifier.debugState.darkMode, true);
+      expect(stateNotifier.debugState.darkMode, isTrue);
     });
 
     test('Should be able to set the locale', () {
@@ -25,9 +25,9 @@ void main() {
         locale: Locale('en'),
       ));
 
-      expect(stateNotifier.debugState.locale, const Locale('en'));
+      expect(stateNotifier.debugState.locale, equals(const Locale('en')));
       stateNotifier.setLocale(const Locale('es'));
-      expect(stateNotifier.debugState.locale, const Locale('es'));
+      expect(stateNotifier.debugState.locale, equals(const Locale('es')));
     });
   });
 }
