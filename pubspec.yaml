@@ -31,6 +31,7 @@ dependencies:
   flutter_svg: ^2.0.4
   http: ^0.13.5
 
+  # Device info
   device_info_plus: ^8.1.0
   package_info_plus: ^3.0.3
   connectivity_plus: ^3.0.3
