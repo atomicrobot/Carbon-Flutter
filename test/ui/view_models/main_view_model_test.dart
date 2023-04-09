@@ -7,12 +7,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../mocks.mocks.dart';
-import '../../util/provider.dart';
+import '../../provider.dart';
 
 void main() {
   group('MainViewModel', () {
     late MockGithubApiClient mockGithubApiClient;
     late ProviderContainer container;
+    late ProviderStateListener<MainState> listener;
     late MainViewModel viewModel;
 
     setUp(() {
@@ -20,6 +21,14 @@ void main() {
       container = createProviderContainer(overrides: [
         githubApiClientProvider.overrideWithValue(mockGithubApiClient),
       ]);
+
+      listener = ProviderStateListener();
+      container.listen(
+        mainViewModelProvider,
+        listener.listen,
+        fireImmediately: true,
+      );
+
       viewModel = container.read(mainViewModelProvider.notifier);
     });
 
@@ -74,37 +83,48 @@ void main() {
       ];
       when(mockGithubApiClient.loadCommits(any, any)).thenAnswer((_) async => mockCommits);
 
-      expectLater(
-          viewModel.stream,
-          emitsInOrder([
-            predicate<MainState>((value) {
-              expect(value.commits, equals(const AsyncValue<List<Commit>>.loading()));
-              return true;
-            }),
-            predicate<MainState>((value) {
-              expect(
-                  value.commits,
-                  equals(const AsyncValue.data([
-                    Commit(
-                      commit: CommitDetails(
-                        message: 'testMessage',
-                        author: Author(name: 'testAuthor'),
-                      ),
-                    )
-                  ])));
-              return true;
-            }),
-          ]));
-
       await viewModel.loadCommits();
+
+      expect(
+        listener.states,
+        [
+          predicate<MainState>((value) {
+            expect(value.commits, isNull);
+            return true;
+          }),
+          predicate<MainState>((value) {
+            expect(value.commits, equals(const AsyncValue<List<Commit>>.loading()));
+            return true;
+          }),
+          predicate<MainState>((value) {
+            expect(
+                value.commits,
+                equals(const AsyncValue.data([
+                  Commit(
+                    commit: CommitDetails(
+                      message: 'testMessage',
+                      author: Author(name: 'testAuthor'),
+                    ),
+                  )
+                ])));
+            return true;
+          }),
+        ],
+      );
     });
 
     test('Should not be able to load commits with initial loading state', () async {
       when(mockGithubApiClient.loadCommits(any, any)).thenThrow(GithubRepositoryNotFoundException());
 
-      expectLater(
-          viewModel.stream,
-          emitsInOrder([
+      await viewModel.loadCommits();
+
+      expect(
+          listener.states,
+          equals([
+            predicate<MainState>((value) {
+              expect(value.commits, isNull);
+              return true;
+            }),
             predicate<MainState>((value) {
               expect(value.commits, equals(const AsyncValue<List<Commit>>.loading()));
               return true;
@@ -114,7 +134,6 @@ void main() {
               return true;
             }),
           ]));
-      await viewModel.loadCommits();
     });
   });
 }

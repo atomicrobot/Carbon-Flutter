@@ -18,17 +18,17 @@ class MainState with _$MainState {
   const MainState._();
 }
 
-class MainViewModel extends StateNotifier<MainState> {
-  MainViewModel(this.githubApiClient)
-      : super(
-          const MainState(
-            user: 'atomicrobot',
-            repository: 'Carbon-Flutter',
-            commits: null,
-          ),
-        );
+class MainViewModel extends AutoDisposeNotifier<MainState> {
+  GithubApiClient get githubApiClient => ref.read(githubApiClientProvider);
 
-  final GithubApiClient githubApiClient;
+  @override
+  MainState build() {
+    return const MainState(
+      user: 'atomicrobot',
+      repository: 'Carbon-Flutter',
+      commits: null,
+    );
+  }
 
   void setUser(String user) => state = state.copyWith(user: user);
 
@@ -41,10 +41,12 @@ class MainViewModel extends StateNotifier<MainState> {
     });
     state = state.copyWith(commits: value);
   }
+
+  @visibleForTesting
+  MainState get debugState => state;
+
+  @visibleForTesting
+  set debugState(MainState newState) => state = newState;
 }
 
-final mainViewModelProvider = StateNotifierProvider<MainViewModel, MainState>((ref) {
-  return MainViewModel(
-    ref.read(githubApiClientProvider),
-  );
-});
+final mainViewModelProvider = NotifierProvider.autoDispose<MainViewModel, MainState>(MainViewModel.new);

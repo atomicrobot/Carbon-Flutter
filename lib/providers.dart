@@ -1,8 +1,7 @@
+import 'package:carbon_flutter/app/application_monitor.dart';
 import 'package:carbon_flutter/app/clients/device_client.dart';
-import 'package:carbon_flutter/app/clients/error_reporter.dart';
 import 'package:carbon_flutter/app/clients/github_api_client.dart';
 import 'package:carbon_flutter/app/clients/http_client.dart';
-import 'package:carbon_flutter/app/clients/logger.dart';
 import 'package:carbon_flutter/domain/app/app_configuration.dart';
 import 'package:carbon_flutter/domain/app/build_flavor.dart';
 import 'package:carbon_flutter/domain/app/build_mode.dart';
@@ -32,12 +31,9 @@ final buildFlavorProvider = Provider<BuildFlavor>((ref) {
   throw UnsupportedError('BuildFlavor should be provided via an override in the root ProviderScope');
 });
 
-final loggerProvider = Provider<AppLogger>((ref) {
-  throw UnsupportedError('AppLogger should be provided via an override in the root ProviderScope');
-});
-
-final errorReporterProvider = Provider<AppErrorReporter>((ref) {
-  throw UnsupportedError('AppErrorReporter should be provided via an override in the root ProviderScope');
+final applicationMonitorProvider = Provider<ApplicationMonitor>((ref) {
+  // Override in the root ProviderScope if a different crash reporter is needed
+  return DebugApplicationMonitor();
 });
 
 final deviceClientProvider = Provider<DeviceClient>((ref) {

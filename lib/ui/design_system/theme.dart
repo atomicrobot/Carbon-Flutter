@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 const double screenPadding = 16.0;
 const double verticalSeparation = 24.0;
 
-// TODO: https://github.com/flutter/flutter/issues/91605#issuecomment-1358218049
 const _lightColorScheme = ColorScheme(
   brightness: Brightness.light,
   primary: Color(0xFFB02E12),
@@ -35,8 +34,8 @@ const _lightColorScheme = ColorScheme(
   inversePrimary: Color(0xFFFFB4A4),
   shadow: Color(0xFF000000),
   surfaceTint: Color(0xFFB02E12),
-  //outlineVariant: Color(0xFFD8C2BD),
-  //scrim: Color(0xFF000000),
+  outlineVariant: Color(0xFFD8C2BD),
+  scrim: Color(0xFF000000),
 );
 
 const _darkColorScheme = ColorScheme(
@@ -69,8 +68,8 @@ const _darkColorScheme = ColorScheme(
   inversePrimary: Color(0xFFB02E12),
   shadow: Color(0xFF000000),
   surfaceTint: Color(0xFFFFB4A4),
-  //outlineVariant: Color(0xFF534340),
-  //scrim: Color(0xFF000000),
+  outlineVariant: Color(0xFF534340),
+  scrim: Color(0xFF000000),
 );
 
 // Theme

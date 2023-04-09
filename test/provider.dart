@@ -15,3 +15,11 @@ ProviderContainer createProviderContainer({
   addTearDown(container.dispose);
   return container;
 }
+
+class ProviderStateListener<T> {
+  final List<T> states = [];
+
+  void listen(T? previous, T next) => states.add(next);
+
+  void reset() => states.clear();
+}

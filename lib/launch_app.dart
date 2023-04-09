@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:carbon_flutter/app/app.dart';
+import 'package:carbon_flutter/app/application_monitor.dart';
 import 'package:carbon_flutter/app/clients/device_client.dart';
-import 'package:carbon_flutter/app/clients/error_reporter.dart';
-import 'package:carbon_flutter/app/clients/logger.dart';
+import 'package:carbon_flutter/app/logger.dart';
 import 'package:carbon_flutter/domain/app/build_flavor.dart';
 import 'package:carbon_flutter/domain/app/build_mode.dart';
 import 'package:carbon_flutter/domain/device/device_capability.dart';
@@ -16,54 +16,30 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// These instances are are things that should exist and be accessible outside
-// of and before calling runApp. To accomplish that, we force them to be
-// overridden (see providers.dart) in the root ProviderScope that is
-// passed into runApp below. This is to support capabilities like local
-// notifications, deep links, global error handling, and other things that
-// happen outside of the typical Flutter app lifecycle. A good heuristic
-// to use for consistency when figuring out how to expose an instance is if
-// there will only ever be a single instance of the class and it does not
-// need to react to state, you should expose it via overrides; otherwise
-// follow the normal flow in providers.dart.
-
-late NowEpochMs _nowEpochMs;
-late BuildMode _buildMode;
-late HostPlatform _hostPlatform;
-late AppLogger _logger;
-late AppErrorReporter _errorReporter;
-late DeviceClient _deviceClient;
-
 Future launchApp(BuildFlavor buildFlavor) async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  _nowEpochMs = _buildNowEpochMs();
-  _buildMode = _buildBuildMode();
-  _hostPlatform = await _buildHostPlatform();
-  _logger = _buildLogger();
-  _errorReporter = _buildErrorReporter(_logger);
-  _deviceClient = _buildDeviceClient();
+  final logHandler = kReleaseMode ? DebugLogHandler() : DebugLogHandler();
+  const logLevel = kReleaseMode ? Level.INFO : Level.ALL;
+  configureApplicationLogging(logHandler, logLevel);
 
-  _errorReporter.init();
+  final applicationMonitor = kReleaseMode ? DebugApplicationMonitor() : DebugApplicationMonitor();
+  configureApplicationMonitoring(applicationMonitor);
 
-  _logger.i('Starting the application...');
   runApp(ProviderScope(
     overrides: [
-      nowEpochMsProvider.overrideWithValue(_nowEpochMs),
-      buildModeProvider.overrideWithValue(_buildMode),
       buildFlavorProvider.overrideWithValue(buildFlavor),
-      hostPlatformProvider.overrideWithValue(_hostPlatform),
-      loggerProvider.overrideWithValue(_logger),
-      errorReporterProvider.overrideWithValue(_errorReporter),
-      deviceClientProvider.overrideWithValue(_deviceClient),
+      buildModeProvider.overrideWithValue(_buildMode),
+      nowEpochMsProvider.overrideWithValue(systemNowEpochMs),
+      hostPlatformProvider.overrideWithValue(await _hostPlatform),
+      applicationMonitorProvider.overrideWithValue(applicationMonitor),
+      deviceClientProvider.overrideWithValue(const DeviceClient()),
     ],
     child: const App(),
   ));
 }
 
-NowEpochMs _buildNowEpochMs() => systemNowEpochMs;
-
-BuildMode _buildBuildMode() {
+BuildMode get _buildMode {
   if (kDebugMode) {
     return BuildMode.debug();
   } else if (kProfileMode) {
@@ -75,7 +51,7 @@ BuildMode _buildBuildMode() {
   }
 }
 
-Future<HostPlatform> _buildHostPlatform() async {
+Future<HostPlatform> get _hostPlatform async {
   final deviceInfoPlugin = DeviceInfoPlugin();
   if (Platform.isAndroid) {
     final deviceAndPackageInfo = await Future.wait([
@@ -113,9 +89,3 @@ Future<HostPlatform> _buildHostPlatform() async {
     throw UnsupportedError('Unsupported host platform');
   }
 }
-
-AppLogger _buildLogger() => AppLogger();
-
-AppErrorReporter _buildErrorReporter(AppLogger logger) => AppErrorReporter(logger);
-
-DeviceClient _buildDeviceClient() => const DeviceClient();
