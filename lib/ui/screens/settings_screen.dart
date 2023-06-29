@@ -1,3 +1,4 @@
+import 'package:carbon_flutter/domain/app/build_flavor.dart';
 import 'package:carbon_flutter/l10n/localizations.dart';
 import 'package:carbon_flutter/providers.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +17,8 @@ class SettingsScreen extends ConsumerWidget {
     final appVersion = hostPlatform.packageInfo.version;
     final appBuildNumber = hostPlatform.packageInfo.buildNumber;
 
-    final appBuildFlavor = buildFlavor.map(
-      dev: (dev) => 'Development',
-      prod: (prod) => 'Production',
-    );
+    final appBuildFlavor = (buildFlavor == BuildFlavor.dev) ? 'Development' : 'Production';
+
     final appBuildMode = buildMode.map(
       debug: (debug) => 'Debug',
       profile: (profile) => 'Profile',
