@@ -1,17 +1,15 @@
-import 'package:flutter/foundation.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+enum BuildFlavor {
+  dev,
+  prod;
 
-part 'build_flavor.freezed.dart';
+  bool get designSystemPreviewVisible {
+    switch (this) {
+      case BuildFlavor.dev:
+        return true;
+      case BuildFlavor.prod:
+        return false;
+    }
+  }
 
-@freezed
-class BuildFlavor with _$BuildFlavor {
-  factory BuildFlavor.prod() = ProdBuildFlavor;
-  factory BuildFlavor.dev() = DevBuildFlavor;
-
-  const BuildFlavor._();
-
-  bool get designSystemPreviewVisible => map(
-        dev: (dev) => true,
-        prod: (prod) => false,
-      );
+  static BuildFlavor valueOf(String value) => BuildFlavor.values.firstWhere((flavor) => flavor.name == value);
 }

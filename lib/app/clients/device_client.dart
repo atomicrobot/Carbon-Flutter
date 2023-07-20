@@ -9,7 +9,7 @@ class DeviceClient {
   Brightness get _platformBrightness => SchedulerBinding.instance.platformDispatcher.platformBrightness;
 
   Locale get localeWithoutCountry {
-    final locale = window.locale;
+    final locale = PlatformDispatcher.instance.locale;
     return Locale(locale.languageCode);
   }
 }
