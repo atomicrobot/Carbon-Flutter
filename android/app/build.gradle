@@ -1,6 +1,12 @@
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -24,13 +30,11 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
+
+    namespace = "com.atomicrobot.carbonflutter"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -79,45 +83,10 @@ android {
     }
 }
 
-// Working around a bug in the Flutter toolchain where the target file is not correctly selected
-// See: https://github.com/flutter/flutter/issues/55366#issuecomment-1190844365
-def getCurrentFlavorFlutterTarget() {
-    def taskReqStr = gradle.getStartParameter().getTaskRequests().toString()
-    if (taskReqStr == null) {
-        return "not_needed_yet"
-    }
-
-    Pattern pattern
-    if (taskReqStr.contains("assemble")) { // to run ./gradlew assembleRelease to build APK
-        pattern = Pattern.compile("assemble(\\w+)(Release|Debug)")
-    } else if (taskReqStr.contains("bundle")) { // to run ./gradlew bundleRelease to build .aab
-        pattern = Pattern.compile("assemble(\\w+)(Release|Debug)")
-    } else {
-        pattern = Pattern.compile("generate(\\w+)(Release|Debug)")
-    }
-
-    Matcher matcher = pattern.matcher(taskReqStr)
-    def flavor
-    if (matcher.find()) {
-        flavor = matcher.group(1).toLowerCase()
-    } else {
-        return "not_needed_yet"
-    }
-
-    if (flavor == "dev") {
-        return "lib/main_dev.dart"
-    } else if (flavor == "prod") {
-        return "lib/main_prod.dart"
-    } else {
-        throw new GradleException("Unexpected flavor: ${flavor}")
-    }
-}
-
 flutter {
     source '../..'
-    target getCurrentFlavorFlutterTarget()
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.20"
 }
